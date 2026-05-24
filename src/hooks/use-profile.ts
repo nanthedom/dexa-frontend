@@ -7,7 +7,7 @@ import { userApi } from "@/services/user"
 
 export function useProfile() {
     return useQuery({
-        queryKey: queryKeys.user.profile,
+        queryKey: queryKeys.users.profile,
         queryFn: () => userApi.getProfile(),
         enabled: typeof window !== "undefined" && !!getToken(),
     })

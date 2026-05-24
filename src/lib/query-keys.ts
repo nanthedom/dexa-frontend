@@ -1,5 +1,8 @@
 export const queryKeys = {
-    user: {
+    users: {
         profile: ["auth", "profile"] as const,
+    },
+    attendances: {
+        todayStatus: ["attendances", "today-status"] as const,
     },
 }
