@@ -1,4 +1,4 @@
-import type { GeneralResponse } from "./general-response"
+import type { GeneralListResponse, GeneralResponse } from "./general-response"
 
 export interface Attendance {
     id: string
@@ -35,9 +35,49 @@ export interface TodayStatus {
     canCheckOut: boolean
 }
 
+export interface ListAttendance {
+    id: string,
+    date: string,
+    startTime: string,
+    endTime: string,
+    createdAt: string,
+    updatedAt: string,
+    attendances: {
+        id: string
+        checkInAt: string
+        checkOutAt: string
+        notes: string
+    }[]
+}
+
+export interface DetailWorkday extends Workday {
+    date: string;
+}
+
+export interface DetailAttendance extends Attendance {
+    user: {
+        id: string
+        fullName: string
+        email: string
+        department: string
+        position: string
+    };
+    workday: DetailWorkday
+}
+
+export interface AttendanceListParams {
+    page?: number;
+    limit?: number;
+    userId: string | null;
+}
+
 export type TodayStatusResponse = GeneralResponse<TodayStatus>
 
 export type AttendanceResponse = GeneralResponse<Attendance>
+
+export type AttendanceListResponse = GeneralListResponse<ListAttendance>
+
+export type DetailAttendanceResponse = GeneralResponse<DetailAttendance>;
 
 export type AttendanceStatus =
     | "not-open"

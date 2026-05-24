@@ -1,8 +1,11 @@
 import { Button } from "@/components/ui/button"
+import { useAuth } from "@/hooks/use-auth"
 import { LogOut } from "lucide-react"
 import Link from "next/link"
 
 export const Header = () => {
+    const { logout } = useAuth()
+
     return (
         < header className="sticky top-0 z-20 border-b bg-white/90 backdrop-blur" >
             <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-6">
@@ -29,6 +32,7 @@ export const Header = () => {
                 <Button
                     variant="outline"
                     className="gap-2 rounded-xl cursor-pointer"
+                    onClick={logout}
                 >
                     <LogOut className="h-4 w-4" />
                     Logout

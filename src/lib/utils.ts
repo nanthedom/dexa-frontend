@@ -37,3 +37,41 @@ export function calculateAttendanceStatus(
 
   return "not-open";
 }
+
+export function getPaginationPages(
+  currentPage: number,
+  totalPage: number
+): (number | "ellipsis")[] {
+  if (totalPage <= 5) {
+    return Array.from({ length: totalPage }, (_, i) => i + 1)
+  }
+  if (currentPage <= 2) {
+    return [1, 2, 3, 4, "ellipsis", totalPage]
+  }
+  if (currentPage >= totalPage - 1) {
+    return [1, "ellipsis", totalPage - 3, totalPage - 2, totalPage - 1, totalPage]
+  }
+  return [
+    1,
+    "ellipsis",
+    currentPage - 1,
+    currentPage,
+    currentPage + 1,
+    "ellipsis",
+    totalPage,
+  ]
+}
+
+export const formatDate = (dateString?: string | null) => {
+  if (!dateString) return "-";
+  return new Date(dateString).toLocaleString("id-ID", {
+    day: "2-digit", month: "short", year: "numeric",
+    hour: "2-digit", minute: "2-digit"
+  }) + " WIB";
+};
+
+export const formatTimeOnly = (dateString: string) => {
+  return new Date(dateString).toLocaleTimeString("id-ID", {
+    hour: "2-digit", minute: "2-digit"
+  });
+};

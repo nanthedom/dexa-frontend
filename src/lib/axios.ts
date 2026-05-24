@@ -3,7 +3,7 @@ import { clearSession, getToken, LOGIN_PATH } from "@/lib/session"
 import type { ErrorResponse } from "@/lib/type/general-response"
 
 const UNAUTHORIZED_STATUSES = [401] as const
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
+export const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
 export const apiConfig = axios.create({
     baseURL: BASE_URL,
