@@ -6,6 +6,8 @@ import { useState } from "react";
 import { useProfile } from "@/hooks/use-profile";
 import { useTodayStatus } from "@/hooks/use-attendance";
 import { calculateAttendanceStatus } from "@/lib/utils";
+import Link from "next/link";
+import { ChevronRight, ClipboardList, ShieldCheck, Users } from "lucide-react";
 
 export const Profile = () => {
     const { data: profile, isError: profileError, isLoading: profileLoading } = useProfile();
@@ -24,15 +26,15 @@ export const Profile = () => {
 
     return (
         <>
-            <section className="overflow-hidden rounded-[32px] bg-white shadow-sm">
-                <div className="flex flex-col gap-8 p-6 lg:flex-row lg:items-center lg:justify-between lg:p-8">
+            <section className="overflow-hidden rounded-[32px] bg-white shadow-sm p-6 lg:p-8 space-y-6">
+                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-6">
 
                     {/* USER INFO */}
                     {!profile || profileError || profileLoading ? (
                         <div className="h-[100px] bg-muted animate-pulse rounded-[12px] w-[60%]" />
                     ) : (
                         <div className="flex items-start gap-4">
-                            <div className="space-y-4">
+                            <div className="space-y-4 flex-col w-full">
                                 <div>
                                     <p className="text-sm text-zinc-500">Welcome back!</p>
                                     <h2 className="mt-1 text-3xl font-bold tracking-tight text-zinc-900">
@@ -40,7 +42,7 @@ export const Profile = () => {
                                     </h2>
                                 </div>
 
-                                <div className="flex flex-wrap gap-3">
+                                <div className="flex flex-col sm:flex-row gap-3">
                                     <div className="rounded-2xl bg-zinc-100 px-4 py-3">
                                         <p className="text-xs text-zinc-500">Employee Code</p>
                                         <p className="mt-1 text-sm font-semibold text-zinc-900">
@@ -91,6 +93,84 @@ export const Profile = () => {
                         )
                     )}
                 </div>
+
+                {/* MENU */}
+                {!profile || profileError || profileLoading ? (
+                    <div className="h-[100px] w-full animate-pulse rounded-[24px] bg-muted" />
+                ) : (
+                    profile.role === "HRD" && (
+                        <div className="w-full rounded-[28px] border border-zinc-200 bg-gradient-to-br from-zinc-50 to-white p-5">
+
+                            {/* HEADER */}
+                            <div className="flex items-center gap-3">
+                                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-black text-white">
+                                    <ShieldCheck className="h-6 w-6" />
+                                </div>
+
+                                <div>
+                                    <h3 className="text-lg font-bold text-zinc-900">
+                                        HR Dashboard
+                                    </h3>
+
+                                    <p className="text-sm text-zinc-500">
+                                        Manage employee and attendance monitoring
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* MENU LIST */}
+                            <div className="mt-5 grid gap-3 md:grid-cols-2">
+
+                                <Link href="/user-management">
+                                    <div className="group flex cursor-pointer items-center justify-between rounded-2xl border border-zinc-200 bg-white p-4 transition-all hover:border-zinc-300 hover:shadow-sm">
+
+                                        <div className="flex items-center gap-4">
+                                            <div className="rounded-2xl bg-zinc-100 p-3 transition group-hover:bg-zinc-200">
+                                                <Users className="h-5 w-5 text-zinc-700" />
+                                            </div>
+
+                                            <div>
+                                                <p className="text-sm font-semibold text-zinc-900">
+                                                    User Management
+                                                </p>
+
+                                                <p className="text-xs text-zinc-500">
+                                                    Manage employee accounts and roles
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <ChevronRight className="h-5 w-5 text-zinc-400 transition group-hover:translate-x-1" />
+                                    </div>
+                                </Link>
+
+                                <Link href="/monitor-attendance">
+                                    <div className="group flex cursor-pointer items-center justify-between rounded-2xl border border-zinc-200 bg-white p-4 transition-all hover:border-zinc-300 hover:shadow-sm">
+
+                                        <div className="flex items-center gap-4">
+                                            <div className="rounded-2xl bg-zinc-100 p-3 transition group-hover:bg-zinc-200">
+                                                <ClipboardList className="h-5 w-5 text-zinc-700" />
+                                            </div>
+
+                                            <div>
+                                                <p className="text-sm font-semibold text-zinc-900">
+                                                    Attendance Monitor
+                                                </p>
+
+                                                <p className="text-xs text-zinc-500">
+                                                    View employee attendance activity
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <ChevronRight className="h-5 w-5 text-zinc-400 transition group-hover:translate-x-1" />
+                                    </div>
+                                </Link>
+
+                            </div>
+                        </div>
+                    )
+                )}
             </section>
 
             <ActionDialog

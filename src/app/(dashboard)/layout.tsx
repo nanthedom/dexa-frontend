@@ -13,7 +13,11 @@ export default function DashboardLayout({
     <>
       <Header />
       <RequireAuth>
-        {children}
+        <div className="min-h-screen bg-zinc-100">
+          <main className="mx-auto flex max-w-7xl flex-col gap-6 p-4 md:p-6">
+            {children}
+          </main>
+        </div>
       </RequireAuth>
     </>
   );

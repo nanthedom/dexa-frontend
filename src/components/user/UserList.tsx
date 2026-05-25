@@ -1,26 +1,21 @@
-"use client"
+import { useUserList } from "@/hooks/use-user";
+import { UserData } from "@/lib/type/user";
+import { Eye, Loader2 } from "lucide-react";
+import { useState } from "react";
+import { Button } from "../ui/button";
+import { toast } from "sonner";
+import { PaginationBar } from "../pagination/Pagination";
+import { UserDetailDialog } from "./UserDialog";
 
-import { Button } from "@/components/ui/button"
-import { Eye, Loader2 } from "lucide-react"
-import { useState } from "react"
-import { AttendanceDetailDialog } from "./AttendanceDetailDialog"
-import { PaginationBar } from "../pagination/Pagination"
-import { useAttendanceList } from "@/hooks/use-attendance"
-import { getUserId } from "@/lib/session"
-import { ListAttendance } from "@/lib/type/attendance"
-import { formatDate } from "@/lib/utils"
-import { toast } from "sonner"
-
-export const AttendanceList = () => {
+export const UserList = ({ search }: { search: string }) => {
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
     const [pageInput, setPageInput] = useState("1");
 
     const [openDetailDialog, setOpenDetailDialog] = useState(false);
-    const [selectedId, setSelectedId] = useState<string | null>(null);
+    const [selectedId, setSelectedId] = useState<string | undefined>(undefined);
 
-    const userId = getUserId()
-    const { data: currentData, meta, isLoading, isError } = useAttendanceList({ userId, page, limit });
+    const { data: users, meta, isLoading, isError } = useUserList({ q: search, page, limit });
 
     const handleLimitChange = (newLimit: number) => {
         setLimit(newLimit);
@@ -30,7 +25,7 @@ export const AttendanceList = () => {
 
     const handleClickDetail = (id: string | null) => {
         if (!id) {
-            toast.error("No Attendance Data!")
+            toast.error("No User Data!")
             return
         }
 
@@ -42,23 +37,42 @@ export const AttendanceList = () => {
         <>
             <section className="rounded-[32px] bg-white p-6 shadow-sm">
                 <div className="mb-6">
-                    <h3 className="text-xl font-bold text-zinc-900">
-                        Recent Attendance
-                    </h3>
+                    <h2 className="text-xl font-bold text-zinc-900">
+                        User List
+                    </h2>
+
                     <p className="mt-1 text-sm text-zinc-500">
-                        Your attendance history
+                        List of all registered employees
                     </p>
                 </div>
 
                 <div className="overflow-x-auto mb-6">
-                    <table className="w-full min-w-[640px]">
+                    <table className="w-full min-w-[900px]">
                         <thead>
                             <tr className="border-b border-zinc-200">
-                                <th className="p-4 text-left text-sm font-semibold text-zinc-500 w-[200px]">Date</th>
-                                <th className="p-4 text-left text-sm font-semibold text-zinc-500 w-[200px]">Check In</th>
-                                <th className="p-4 text-left text-sm font-semibold text-zinc-500 w-[200px]">Check Out</th>
-                                <th className="p-4 text-left text-sm font-semibold text-zinc-500 w-[200px]">Notes</th>
-                                <th className="p-4 text-left text-sm font-semibold text-zinc-500 w-[100px]">Action</th>
+                                <th className="p-4 text-left text-sm font-semibold text-zinc-500">
+                                    Employee Code
+                                </th>
+
+                                <th className="p-4 text-left text-sm font-semibold text-zinc-500">
+                                    Full Name
+                                </th>
+
+                                <th className="p-4 text-left text-sm font-semibold text-zinc-500">
+                                    Department
+                                </th>
+
+                                <th className="p-4 text-left text-sm font-semibold text-zinc-500">
+                                    Position
+                                </th>
+
+                                <th className="p-4 text-left text-sm font-semibold text-zinc-500">
+                                    Role
+                                </th>
+
+                                <th className="p-4 text-left text-sm font-semibold text-zinc-500">
+                                    Action
+                                </th>
                             </tr>
                         </thead>
 
@@ -72,39 +86,54 @@ export const AttendanceList = () => {
                             ) : isError ? (
                                 <tr>
                                     <td colSpan={5} className="py-10 text-center text-sm text-red-500">
-                                        Failed to load attendance records.
+                                        Failed to load user records.
                                     </td>
                                 </tr>
-                            ) : currentData.length === 0 ? (
+                            ) : users.length === 0 ? (
                                 <tr>
                                     <td colSpan={5} className="py-10 text-center text-sm text-zinc-500">
-                                        No attendance data found.
+                                        No user data found.
                                     </td>
                                 </tr>
                             ) : (
-                                currentData.map((item: ListAttendance) => (
+                                users.map((user: UserData) => (
                                     <tr
-                                        key={item.id}
-                                        className="border-b border-zinc-100 last:border-none hover:bg-zinc-50/50"
+                                        key={user.id}
+                                        className="border-b border-zinc-100 hover:bg-zinc-50"
                                     >
                                         <td className="p-4 text-sm text-zinc-700">
-                                            {formatDate(item.date).split(",")[0]}
+                                            {user.employeeCode}
                                         </td>
+
+                                        <td className="p-4 text-sm font-medium text-zinc-900">
+                                            {user.fullName}
+                                        </td>
+
                                         <td className="p-4 text-sm text-zinc-700">
-                                            {item.attendances[0] ? formatDate(item.attendances[0].checkInAt) : "-"}
+                                            {user.department}
                                         </td>
+
                                         <td className="p-4 text-sm text-zinc-700">
-                                            {item.attendances[0] ? formatDate(item.attendances[0].checkOutAt) : "-"}
+                                            {user.position}
                                         </td>
-                                        <td className="p-4 text-sm text-zinc-700">
-                                            {item.attendances[0] ? item.attendances[0].notes : "-"}
+
+                                        <td className="p-4">
+                                            <div
+                                                className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${user.role === "HRD"
+                                                    ? "bg-indigo-100 text-indigo-700"
+                                                    : "bg-zinc-100 text-zinc-700"
+                                                    }`}
+                                            >
+                                                {user.role}
+                                            </div>
                                         </td>
+
                                         <td className="p-4">
                                             <Button
                                                 size="sm"
                                                 variant="outline"
                                                 className="rounded-xl cursor-pointer"
-                                                onClick={() => handleClickDetail(item.attendances[0] ? item.attendances[0].id : null)}
+                                                onClick={() => handleClickDetail(user.id)}
                                             >
                                                 <Eye className="mr-2 h-4 w-4" />
                                                 Detail
@@ -129,18 +158,20 @@ export const AttendanceList = () => {
                         onPageChange={setPage}
                     />
                 )}
-            </section >
+            </section>
 
             {openDetailDialog && (
-                <AttendanceDetailDialog
-                    attendanceId={selectedId}
+                <UserDetailDialog
+                    userId={selectedId}
                     openDetailDialog={openDetailDialog}
                     setOpenDetailDialog={(open) => {
                         setOpenDetailDialog(open);
-                        if (!open) setSelectedId(null);
+                        if (!open) setSelectedId(undefined);
                     }}
+                    mode="update"
                 />
             )}
         </>
+
     )
 }

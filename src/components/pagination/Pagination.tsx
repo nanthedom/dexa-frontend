@@ -100,7 +100,7 @@ export function PaginationBar({
                                 variant="ghost"
                                 size="sm"
                                 className={cn(
-                                    "h-9 gap-1 rounded-[12px] text-sm font-normal leading-[140%] tracking-[0.005em] disabled:opacity-100",
+                                    "h-8 gap-1 rounded-[12px] text-sm font-normal leading-[140%] tracking-[0.005em] disabled:opacity-100",
                                     !canPrev ? "text-muted-foreground" : "text-foreground cursor-pointer"
                                 )}
                                 disabled={!canPrev}
@@ -147,7 +147,7 @@ export function PaginationBar({
                                 variant="ghost"
                                 size="sm"
                                 className={cn(
-                                    "h-9 gap-1 rounded-[12px] text-sm font-normal leading-[140%] tracking-[0.005em] disabled:opacity-100",
+                                    "h-8 gap-1 rounded-[12px] text-sm font-normal leading-[140%] tracking-[0.005em] disabled:opacity-100",
                                     !canNext ? "text-muted-foreground" : "text-foreground cursor-pointer"
                                 )}
                                 disabled={!canNext}

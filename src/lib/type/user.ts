@@ -1,7 +1,6 @@
-import type { GeneralResponse } from "./general-response"
+import type { GeneralListResponse, GeneralResponse } from "./general-response"
 
-export interface ProfileData {
-    userId: string
+export interface User {
     email: string
     employeeCode: string
     fullName: string
@@ -10,4 +9,24 @@ export interface ProfileData {
     position: string
 }
 
+export interface ProfileData extends User {
+    userId: string
+}
+
+export interface UserData extends User {
+    id: string
+    createdAt: string
+    updatedAt: string
+}
+
+export interface UserListParams {
+    page?: number;
+    limit?: number;
+    q?: string | null;
+}
+
 export type ProfileResponse = GeneralResponse<ProfileData>
+
+export type UserResponse = GeneralResponse<UserData>
+
+export type UserListResponse = GeneralListResponse<UserData>
