@@ -14,7 +14,7 @@ export function useAuth() {
         mutationFn: (credentials: { email: string; password: string }) =>
             authApi.login(credentials),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: queryKeys.user.profile })
+            queryClient.invalidateQueries({ queryKey: queryKeys.users.profile })
             router.push("/")
         },
     })
