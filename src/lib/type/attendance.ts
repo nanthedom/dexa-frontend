@@ -39,8 +39,20 @@ export interface DetailWorkday extends Workday {
     date: string;
 }
 
-export interface ListAttendance extends Attendance {
+export interface ListMonitor extends Attendance {
     workday: DetailWorkday
+}
+
+export interface MonitorEmployee {
+    user: {
+        fullName: string
+        department: string
+        position: string
+    }
+    attendances: ListMonitor[]
+}
+
+export interface ListAttendance extends ListMonitor {
     user: {
         fullName: string
         department: string
@@ -71,7 +83,9 @@ export type TodayStatusResponse = GeneralResponse<TodayStatus>
 
 export type AttendanceResponse = GeneralResponse<Attendance>
 
-export type AttendanceListResponse = GeneralListResponse<ListAttendance>
+export type MonitorEmployeeListResponse = GeneralListResponse<MonitorEmployee>
+
+export type AttendanceListResponse = GeneralListResponse<ListAttendance[]>
 
 export type DetailAttendanceResponse = GeneralResponse<DetailAttendance>;
 

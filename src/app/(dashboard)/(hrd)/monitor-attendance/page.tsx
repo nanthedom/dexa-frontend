@@ -5,7 +5,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Search, ArrowLeft } from "lucide-react";
-import { MonitorAttendance } from "@/components/attendance/MonitorAttendance";
+import { HistoryAttendance } from "@/components/attendance/HistoryAttendance";
 
 export default function MonitorAttendancePage() {
     const [search, setSearch] = useState("");
@@ -28,11 +28,11 @@ export default function MonitorAttendancePage() {
 
                     <div>
                         <h1 className="text-3xl font-bold text-zinc-900">
-                            Attendance Monitor
+                            Attendance History
                         </h1>
 
                         <p className="mt-1 text-sm text-zinc-500">
-                            View employee attendance activity
+                            View all time attendance activity from all users
                         </p>
                     </div>
                 </div>
@@ -69,7 +69,7 @@ export default function MonitorAttendancePage() {
                     </div>
 
                     -
-                    
+
                     {/* END DATE */}
                     <div className="relative">
                         <Input
@@ -84,7 +84,7 @@ export default function MonitorAttendancePage() {
                 </div>
             </section>
 
-            <MonitorAttendance
+            <HistoryAttendance
                 search={search}
                 startDate={startDate}
                 endDate={endDate}

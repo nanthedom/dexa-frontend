@@ -131,11 +131,11 @@ export const Profile = () => {
 
                                             <div>
                                                 <p className="text-sm font-semibold text-zinc-900">
-                                                    User Management
+                                                    Employee Management & Monitor
                                                 </p>
 
                                                 <p className="text-xs text-zinc-500">
-                                                    Manage employee accounts and roles
+                                                    Manage employee accounts and monitor their attendance
                                                 </p>
                                             </div>
                                         </div>
@@ -154,11 +154,11 @@ export const Profile = () => {
 
                                             <div>
                                                 <p className="text-sm font-semibold text-zinc-900">
-                                                    Attendance Monitor
+                                                    Attendance History
                                                 </p>
 
                                                 <p className="text-xs text-zinc-500">
-                                                    View employee attendance activity
+                                                    View all time attendance activity from all users
                                                 </p>
                                             </div>
                                         </div>

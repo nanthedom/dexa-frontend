@@ -29,4 +29,4 @@ export type ProfileResponse = GeneralResponse<ProfileData>
 
 export type UserResponse = GeneralResponse<UserData>
 
-export type UserListResponse = GeneralListResponse<UserData>
+export type UserListResponse = GeneralListResponse<UserData[]>

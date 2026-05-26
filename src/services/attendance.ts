@@ -1,4 +1,4 @@
-import { AttendanceListParams, AttendanceListResponse, AttendanceResponse, DetailAttendanceResponse, TodayStatusResponse } from "@/lib/type/attendance"
+import { AttendanceListParams, AttendanceListResponse, AttendanceResponse, DetailAttendanceResponse, MonitorEmployeeListResponse, TodayStatusResponse } from "@/lib/type/attendance"
 import { apiConfig as api } from "@/lib/axios"
 
 export const attendanceApi = {
@@ -26,6 +26,11 @@ export const attendanceApi = {
         const { data } = await api.post<AttendanceResponse>("/attendances/check-out", formData, {
             headers: { "Content-Type": "multipart/form-data" },
         });
+        return data;
+    },
+
+    async monitorEmployee(id: string, params: AttendanceListParams): Promise<MonitorEmployeeListResponse> {
+        const { data } = await api.get<MonitorEmployeeListResponse>(`/attendances/monitor-employee/${id}`, { params });
         return data;
     },
 

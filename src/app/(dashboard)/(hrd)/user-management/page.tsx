@@ -27,11 +27,11 @@ export default function UserManagementPage() {
 
                         <div>
                             <h1 className="text-3xl font-bold text-zinc-900">
-                                User Management
+                                Employee Management & Monitor
                             </h1>
 
                             <p className="mt-1 text-sm text-zinc-500">
-                                Manage employee accounts and access
+                                Manage employee accounts and monitor their attendance
                             </p>
                         </div>
                     </div>

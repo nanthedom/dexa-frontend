@@ -2,9 +2,12 @@
 
 import { Profile } from "@/components/user/Profile";
 import { Stats } from "@/components/attendance/Stats";
-import { HistoryAttendance } from "@/components/attendance/HistoryAttendance";
+import { AttendanceActivity } from "@/components/attendance/AttendanceActivity";
+import { getUserId } from "@/lib/session";
 
 export default function DashboardPage() {
+    const userId = getUserId()
+    if (!userId) return
 
     return (
         <>
@@ -12,7 +15,10 @@ export default function DashboardPage() {
 
             <Stats />
 
-            <HistoryAttendance />
+            <AttendanceActivity
+                userId={userId}
+                isMonitor={false}
+            />
 
         </>
     );

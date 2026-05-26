@@ -16,7 +16,7 @@ export interface GeneralListResponse<T> {
     statusCode: number
     message: string
     data: {
-        data: T[],
+        data: T,
         meta: {
             totalData: number
             totalPage: number
