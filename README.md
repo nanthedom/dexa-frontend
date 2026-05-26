@@ -23,6 +23,7 @@
     - [Login Validation Error](#login-validation-error)
   - [Dashboard](#dashboard)
     - [Dashboard Overview](#dashboard-overview)
+    - [Dashboard Employee (No Menu)](#dashboard-employee-no-menu)
     - [Dashboard Open State](#dashboard-open-state)
     - [Checked In Status](#checked-in-status)
   - [Attendance](#attendance)
@@ -210,6 +211,9 @@ http://localhost:3000
 
 ### Dashboard Overview
 ![Dashboard](./docs/dashboard.png)
+
+### Dashboard Employee (No Menu)
+![Dashboard Employee](./docs/dashboard-employee.png)
 
 ### Dashboard Open State
 ![Dashboard Open](./docs/dashboard-open.png)
