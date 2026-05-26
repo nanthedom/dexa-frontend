@@ -1,13 +1,15 @@
 import { useUserList } from "@/hooks/use-user";
 import { UserData } from "@/lib/type/user";
-import { Eye, Loader2 } from "lucide-react";
+import { Eye, Loader2, Search } from "lucide-react";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { toast } from "sonner";
 import { PaginationBar } from "../pagination/Pagination";
 import { UserDetailDialog } from "./UserDialog";
+import { Input } from "../ui/input";
 
-export const UserList = ({ search }: { search: string }) => {
+export const UserList = () => {
+    const [search, setSearch] = useState("")
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
     const [pageInput, setPageInput] = useState("1");
@@ -44,6 +46,19 @@ export const UserList = ({ search }: { search: string }) => {
                     <p className="mt-1 text-sm text-zinc-500">
                         List of all registered employees
                     </p>
+                </div>
+
+                <div className="mb-6 relative">
+                    <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
+
+                    <Input
+                        value={search}
+                        onChange={(e) =>
+                            setSearch(e.target.value)
+                        }
+                        placeholder="Search user..."
+                        className="h-12 w-full rounded-2xl border-zinc-200 pl-11 sm:w-[400px]"
+                    />
                 </div>
 
                 <div className="overflow-x-auto mb-6">
@@ -168,7 +183,7 @@ export const UserList = ({ search }: { search: string }) => {
                         setOpenDetailDialog(open);
                         if (!open) setSelectedId(undefined);
                     }}
-                    mode="update"
+                    mode="view"
                 />
             )}
         </>

@@ -3,15 +3,12 @@
 import { useState } from "react"
 
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-
-import { ArrowLeft, Plus, Search } from "lucide-react"
+import { ArrowLeft, Plus } from "lucide-react"
 import { UserList } from "@/components/user/UserList"
 import Link from "next/link"
 import { UserDetailDialog } from "@/components/user/UserDialog"
 
 export default function UserManagementPage() {
-    const [search, setSearch] = useState("")
     const [openFormDialog, setOpenFormDialog] = useState(false);
 
     return (
@@ -40,19 +37,6 @@ export default function UserManagementPage() {
                     </div>
 
                     <div className="flex flex-col gap-3 sm:flex-row">
-                        <div className="relative">
-                            <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
-
-                            <Input
-                                value={search}
-                                onChange={(e) =>
-                                    setSearch(e.target.value)
-                                }
-                                placeholder="Search user..."
-                                className="h-12 w-full rounded-2xl border-zinc-200 pl-11 sm:w-[260px]"
-                            />
-                        </div>
-
                         <Button
                             className="h-12 rounded-2xl px-5 font-semibold cursor-pointer"
                             onClick={() => setOpenFormDialog(true)}
@@ -65,7 +49,7 @@ export default function UserManagementPage() {
             </section>
 
             {/* USER LIST */}
-            <UserList search={search} />
+            <UserList />
 
             {/* FORM DIALOG */}
             {openFormDialog && (
