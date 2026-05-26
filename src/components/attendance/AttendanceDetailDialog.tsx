@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button"
 import { X, Loader2, CalendarClock } from "lucide-react"
 import { useAttendanceDetail } from "@/hooks/use-attendance"
-import { BASE_URL } from "@/lib/axios";
 import { formatDate, formatTimeOnly } from "@/lib/utils";
 
 interface AttendanceDetailDialogProps {
@@ -101,7 +100,7 @@ export const AttendanceDetailDialog = ({
                                     <div className="overflow-hidden rounded-2xl border bg-zinc-50 flex items-center justify-center">
                                         {selectedAttendance.checkInPhoto ? (
                                             <img
-                                                src={BASE_URL + selectedAttendance.checkInPhoto}
+                                                src={selectedAttendance.checkInPhoto}
                                                 alt="Check In"
                                                 className="h-72 w-full object-cover"
                                             />
@@ -121,7 +120,7 @@ export const AttendanceDetailDialog = ({
                                         </h3>
                                         <p className="mt-1 text-sm text-zinc-500">
                                             {selectedAttendance.checkOutAt
-                                                ? formatDate(selectedAttendance.checkOutAt)
+                                                ? `at ${formatDate(selectedAttendance.checkOutAt)}`
                                                 : "Not checked out yet"}
                                         </p>
                                     </div>
@@ -129,7 +128,7 @@ export const AttendanceDetailDialog = ({
                                     {selectedAttendance.checkOutPhoto ? (
                                         <div className="overflow-hidden rounded-2xl border">
                                             <img
-                                                src={BASE_URL + selectedAttendance.checkOutPhoto}
+                                                src={selectedAttendance.checkOutPhoto}
                                                 alt="Check Out"
                                                 className="h-72 w-full object-cover"
                                             />

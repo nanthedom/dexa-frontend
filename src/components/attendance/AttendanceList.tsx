@@ -140,8 +140,7 @@ export const AttendanceList = () => {
                         if (!open) setSelectedId(null);
                     }}
                 />
-            )
-            }
+            )}
         </>
     )
 }
