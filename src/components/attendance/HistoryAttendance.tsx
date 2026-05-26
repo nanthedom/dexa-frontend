@@ -48,7 +48,7 @@ export const HistoryAttendance = ({ search, startDate, endDate }: HistoryAttenda
                     <table className="w-full min-w-[640px]">
                         <thead>
                             <tr className="border-b border-zinc-200">
-                                <th className="p-4 text-left text-sm font-semibold text-zinc-500 w-[200px]">Date</th>
+                                <th className="p-4 text-left text-sm font-semibold text-zinc-500 w-[200px]">Work Date</th>
                                 <th className="p-4 text-left text-sm font-semibold text-zinc-500 w-[200px]">Employee</th>
                                 <th className="p-4 text-left text-sm font-semibold text-zinc-500 w-[200px]">Department</th>
                                 <th className="p-4 text-left text-sm font-semibold text-zinc-500 w-[200px]">Check In</th>
