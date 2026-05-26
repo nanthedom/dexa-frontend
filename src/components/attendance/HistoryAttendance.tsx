@@ -9,6 +9,7 @@ import { useAttendanceList } from "@/hooks/use-attendance"
 import { ListAttendance } from "@/lib/type/attendance"
 import { formatDate } from "@/lib/utils"
 import { toast } from "sonner"
+import { useDebounce } from "@/hooks/use-debounce"
 
 interface HistoryAttendanceProps {
     search: string
@@ -23,7 +24,8 @@ export const HistoryAttendance = ({ search, startDate, endDate }: HistoryAttenda
     const [openDetailDialog, setOpenDetailDialog] = useState(false);
     const [selectedId, setSelectedId] = useState<string | null>(null);
 
-    const { data: currentData, meta, isFetching, isError, error } = useAttendanceList({ q: search, startDate, endDate, page, limit });
+    const q = useDebounce(search, 500)
+    const { data: currentData, meta, isFetching, isError, error } = useAttendanceList({ q, startDate, endDate, page, limit });
 
     const handleLimitChange = (newLimit: number) => {
         setLimit(newLimit);

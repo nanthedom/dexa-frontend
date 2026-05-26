@@ -8,6 +8,7 @@ import { PaginationBar } from "../pagination/Pagination";
 import { UserDetailDialog } from "./UserDialog";
 import { Input } from "../ui/input";
 import { AttendanceActivity } from "../attendance/AttendanceActivity";
+import { useDebounce } from "@/hooks/use-debounce";
 
 export const UserList = () => {
     const [search, setSearch] = useState("")
@@ -19,7 +20,8 @@ export const UserList = () => {
     const [activeMonitorId, setActiveMonitorId] = useState<string | null>(null);
     const [selectedId, setSelectedId] = useState("");
 
-    const { data: users, meta, isFetching, isError } = useUserList({ q: search, page, limit });
+    const q = useDebounce(search)
+    const { data: users, meta, isFetching, isError } = useUserList({ q, page, limit });
 
     const handleLimitChange = (newLimit: number) => {
         setLimit(newLimit);
