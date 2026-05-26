@@ -206,7 +206,6 @@ export const ActionDialog = ({ openDialog, setOpenDialog, attendanceType }: { op
                                         <Input
                                             type="file"
                                             accept="image/*"
-                                            capture="user"
                                             disabled={isSubmitting}
                                             className="hidden"
                                             onChange={(e) => {

@@ -30,7 +30,7 @@ export const UserDetailDialog = ({
                 <div className="flex shrink-0 items-start justify-between border-b px-6 py-5">
                     <div>
                         <h2 className="text-2xl font-bold text-zinc-900">
-                            {mode === "create" ? "Add User" : "Edit User"}
+                            {mode === "create" ? "Add User" : mode === "update" ? "Edit User" : "Detail User"}
                         </h2>
                         <p className="mt-1 text-sm text-zinc-500">
                             Fill all required user information
