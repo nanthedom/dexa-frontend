@@ -254,7 +254,7 @@ export const UserForm = ({
                                 type="password"
                                 value={form.password}
                                 onChange={(e) => handleInputChange("password", e.target.value)}
-                                className={`disabled:bg-white disabled:cursor-not-allowed disabled:opacity-70 disabled:text-muted-foreground h-12 rounded-xl ${errors.password ? "border-red-500 focus-visible:ring-red-500" : ""}`}
+                                className={`disabled:bg-white disabled:opacity-70 disabled:text-muted-foreground h-12 rounded-xl ${errors.password ? "border-red-500 focus-visible:ring-red-500" : ""}`}
                                 placeholder={
                                     currentMode === "create" ? "Minimum 8 characters" : "Leave blank if unchanged"
                                 }
@@ -284,7 +284,7 @@ export const UserForm = ({
                     <Button
                         variant="outline"
                         className="rounded-xl cursor-pointer"
-                        onClick={() => setCurrentMode("view")}
+                        onClick={() => currentMode === "create" ? setOpenDetailDialog(false) : setCurrentMode("view")}
                     >
                         Cancel
                     </Button>

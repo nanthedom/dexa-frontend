@@ -17,7 +17,7 @@ export const UserList = () => {
     const [openDetailDialog, setOpenDetailDialog] = useState(false);
     const [selectedId, setSelectedId] = useState<string | undefined>(undefined);
 
-    const { data: users, meta, isLoading, isError } = useUserList({ q: search, page, limit });
+    const { data: users, meta, isFetching, isError } = useUserList({ q: search, page, limit });
 
     const handleLimitChange = (newLimit: number) => {
         setLimit(newLimit);
@@ -92,7 +92,7 @@ export const UserList = () => {
                         </thead>
 
                         <tbody>
-                            {isLoading ? (
+                            {isFetching ? (
                                 <tr>
                                     <td colSpan={5} className="py-10 text-center">
                                         <Loader2 className="mx-auto h-6 w-6 animate-spin text-zinc-400" />
@@ -161,7 +161,7 @@ export const UserList = () => {
                     </table>
                 </div>
 
-                {!isLoading && !isError && (
+                {!isFetching && !isError && (
                     <PaginationBar
                         page={page}
                         totalPage={meta.totalPage}
