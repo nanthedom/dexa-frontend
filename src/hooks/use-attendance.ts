@@ -34,6 +34,7 @@ export function useCheckInMutation() {
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: queryKeys.attendances.todayStatus });
             queryClient.invalidateQueries({ queryKey: ["attendances", "list"] });
+            queryClient.invalidateQueries({ queryKey: ["attendances", "monitor-employee"] });
             toast.success("Check in attendance success");
         },
         onError: (error) => {
@@ -55,12 +56,35 @@ export function useCheckOutMutation() {
             queryClient.invalidateQueries({ queryKey: queryKeys.attendances.todayStatus });
             queryClient.invalidateQueries({ queryKey: queryKeys.attendances.detail(data.data.id) });
             queryClient.invalidateQueries({ queryKey: ["attendances", "list"] });
+            queryClient.invalidateQueries({ queryKey: ["attendances", "monitor-employee"] });
             toast.success("Check out attendance success");
         },
         onError: (error) => {
             toast.error(error.message);
         },
     });
+}
+
+export function useMonitorEmployee(id: string, params: AttendanceListParams) {
+    const query = useQuery({
+        queryKey: queryKeys.attendances.monitorEmployee(id, params),
+        queryFn: () => attendanceApi.monitorEmployee(id, params),
+        placeholderData: keepPreviousData,
+    });
+
+    const data = query.data?.data.data
+    const meta = query.data?.data.meta ?? {
+        totalData: 0,
+        totalPage: 1,
+        from: null,
+        to: null,
+    };
+
+    return {
+        ...query,
+        data,
+        meta,
+    };
 }
 
 export function useAttendanceList(params: AttendanceListParams) {

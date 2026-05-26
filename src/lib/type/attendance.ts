@@ -27,31 +27,36 @@ export interface Window {
 }
 
 export interface TodayStatus {
-    isWorkday: boolean,
-    workday: Workday,
-    attendance: Attendance,
-    window: Window,
-    canCheckIn: boolean,
+    isWorkday: boolean
+    workday: Workday
+    attendance: Attendance
+    window: Window
+    canCheckIn: boolean
     canCheckOut: boolean
-}
-
-export interface ListAttendance {
-    id: string,
-    date: string,
-    startTime: string,
-    endTime: string,
-    createdAt: string,
-    updatedAt: string,
-    attendances: {
-        id: string
-        checkInAt: string
-        checkOutAt: string
-        notes: string
-    }[]
 }
 
 export interface DetailWorkday extends Workday {
     date: string;
+}
+
+export interface ListMonitor extends Attendance {
+    workday: DetailWorkday
+}
+
+export interface MonitorEmployee {
+    user: {
+        fullName: string
+        department: string
+        position: string
+    }
+    attendances: ListMonitor[]
+}
+
+export interface ListAttendance extends ListMonitor {
+    user: {
+        fullName: string
+        department: string
+    }
 }
 
 export interface DetailAttendance extends Attendance {
@@ -66,16 +71,21 @@ export interface DetailAttendance extends Attendance {
 }
 
 export interface AttendanceListParams {
-    page?: number;
-    limit?: number;
-    userId: string | null;
+    page?: number
+    limit?: number
+    userId?: string | null
+    q?: string
+    startDate?: string
+    endDate?: string
 }
 
 export type TodayStatusResponse = GeneralResponse<TodayStatus>
 
 export type AttendanceResponse = GeneralResponse<Attendance>
 
-export type AttendanceListResponse = GeneralListResponse<ListAttendance>
+export type MonitorEmployeeListResponse = GeneralListResponse<MonitorEmployee>
+
+export type AttendanceListResponse = GeneralListResponse<ListAttendance[]>
 
 export type DetailAttendanceResponse = GeneralResponse<DetailAttendance>;
 

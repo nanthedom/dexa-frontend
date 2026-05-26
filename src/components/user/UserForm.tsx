@@ -3,7 +3,7 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { User, UserData } from "@/lib/type/user";
 import { useState } from "react";
-import { useCreateMutation, useUpdateMutation } from "@/hooks/use-user";
+import { useCreateMutation, useDeleteMutation, useUpdateMutation } from "@/hooks/use-user";
 
 interface UserFormProps {
     selectedUser: UserData | null;
@@ -22,6 +22,7 @@ export const UserForm = ({
 }: UserFormProps) => {
     const createMutation = useCreateMutation();
     const updateMutation = useUpdateMutation();
+    const deleteMutation = useDeleteMutation();
     const [currentMode, setCurrentMode] = useState<"view" | "create" | "update">(mode)
 
     const [form, setForm] = useState({
@@ -111,6 +112,20 @@ export const UserForm = ({
         }
     };
 
+    const handleDelete = async () => {
+        if (!userId) return;
+
+        const isConfirmed = window.confirm(`Are you sure you want to delete ${form.fullName || "this user"}? This action cannot be undone.`);
+
+        if (isConfirmed) {
+            deleteMutation.mutate(userId, {
+                onSuccess: () => {
+                    setOpenDetailDialog(false)
+                },
+            });
+        }
+    };
+
     const isUnchanged =
         form.employeeCode === (selectedUser?.employeeCode || "") &&
         form.fullName === (selectedUser?.fullName || "") &&
@@ -120,7 +135,7 @@ export const UserForm = ({
         form.role === (selectedUser?.role || "EMPLOYEE") &&
         form.password === "";
 
-    const isMutating = createMutation.isPending || updateMutation.isPending;
+    const isMutating = createMutation.isPending || updateMutation.isPending || deleteMutation.isPending;
 
     return (
         <>
@@ -254,7 +269,7 @@ export const UserForm = ({
                                 type="password"
                                 value={form.password}
                                 onChange={(e) => handleInputChange("password", e.target.value)}
-                                className={`disabled:bg-white disabled:cursor-not-allowed disabled:opacity-70 disabled:text-muted-foreground h-12 rounded-xl ${errors.password ? "border-red-500 focus-visible:ring-red-500" : ""}`}
+                                className={`disabled:bg-white disabled:opacity-70 disabled:text-muted-foreground h-12 rounded-xl ${errors.password ? "border-red-500 focus-visible:ring-red-500" : ""}`}
                                 placeholder={
                                     currentMode === "create" ? "Minimum 8 characters" : "Leave blank if unchanged"
                                 }
@@ -280,24 +295,40 @@ export const UserForm = ({
 
             {/* FOOTER */}
             {currentMode !== "view" ? (
-                <div className="flex shrink-0 justify-end gap-3 border-t px-6 py-5">
-                    <Button
-                        variant="outline"
-                        className="rounded-xl cursor-pointer"
-                        onClick={() => setCurrentMode("view")}
-                    >
-                        Cancel
-                    </Button>
+                <div className="flex shrink-0 w-full items-center justify-between border-t px-6 py-5">
+                    <div>
+                        {currentMode === "update" && (
+                            <Button
+                                disabled={isMutating}
+                                onClick={handleDelete}
+                                className="rounded-xl cursor-pointer px-4 bg-red-600 hover:bg-red-700 text-white"
+                            >
+                                {deleteMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                                Delete
+                            </Button>
+                        )}
+                    </div>
 
-                    <Button
-                        disabled={isMutating || (currentMode === "update" && isUnchanged)}
-                        onClick={handleSubmit}
-                        className="rounded-xl cursor-pointer px-4"
-                    >
-                        {isMutating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                        {currentMode === "create" ? "Create User" : "Save Changes"}
-                    </Button>
-                </div>
+                    <div className="flex shrink-0 gap-3 ml-auto">
+                        <Button
+                            disabled={isMutating}
+                            variant="outline"
+                            className="rounded-xl cursor-pointer"
+                            onClick={() => currentMode === "create" ? setOpenDetailDialog(false) : setCurrentMode("view")}
+                        >
+                            Cancel
+                        </Button>
+
+                        <Button
+                            disabled={isMutating || (currentMode === "update" && isUnchanged)}
+                            onClick={handleSubmit}
+                            className="rounded-xl cursor-pointer px-4"
+                        >
+                            {(createMutation.isPending || updateMutation.isPending) && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                            {currentMode === "create" ? "Create User" : "Save Changes"}
+                        </Button>
+                    </div>
+                </div >
             ) : (
                 <div className="flex shrink-0 justify-end gap-3 border-t px-6 py-5">
                     <Button
